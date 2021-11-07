@@ -93,4 +93,71 @@ defmodule ReportsGeneratorTest do
       assert response == expected_response
     end
   end
+
+  describe "build_from_many/1" do
+    test "when a file list is provided, builds the report" do
+      filenames = ["report_1.csv", "report_3.csv", "report_3.csv"]
+
+      response = ReportsGenerator.build_from_many(filenames)
+
+      expected_response =
+        {:ok,
+         %{
+           "foods" => %{
+             "açaí" => 37551,
+             "churrasco" => 37779,
+             "esfirra" => 37684,
+             "hambúrguer" => 37521,
+             "pastel" => 37269,
+             "pizza" => 37380,
+             "prato_feito" => 37610,
+             "sushi" => 37206
+           },
+           "users" => %{
+             "1" => 283_167,
+             "10" => 272_251,
+             "11" => 269_457,
+             "12" => 273_721,
+             "13" => 284_812,
+             "14" => 274_625,
+             "15" => 282_370,
+             "16" => 270_170,
+             "17" => 276_073,
+             "18" => 268_047,
+             "19" => 278_030,
+             "2" => 270_787,
+             "20" => 273_817,
+             "21" => 275_959,
+             "22" => 278_603,
+             "23" => 279_724,
+             "24" => 275_413,
+             "25" => 269_977,
+             "26" => 275_562,
+             "27" => 278_753,
+             "28" => 275_074,
+             "29" => 270_559,
+             "3" => 271_857,
+             "30" => 274_040,
+             "4" => 274_878,
+             "5" => 267_749,
+             "6" => 270_205,
+             "7" => 273_022,
+             "8" => 277_922,
+             "9" => 273_152
+           }
+         }}
+
+      assert response == expected_response
+    end
+
+    test "when no file list is provided, throws an error" do
+      filenames = "not_a_list"
+
+      response = ReportsGenerator.build_from_many(filenames)
+
+      expected_response = {:error, "Fail loading list"}
+
+      assert response == expected_response
+    end
+  end
 end
